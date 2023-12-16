@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos de Comidas</title>
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- css -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Barra de Navegacion -->
+    <nav class="navbar navbar-expand-md navbar-light">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler" aria-controls="" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbar-toggler">
+            <a class="navbar-brand" href="#">
+                <img src="imagenes/iconoEntregaComida.png" width="50" alt="Logo de la página web">
+            </a>
+            <ul class="navbar-nav d-flex justify-content-center align-items-center">
+              <li class="nav-item">
+                <a class="nav-link" id="nav-altaComida" aria-current="page" href="#">Alta de Comidas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="nav-altaCliente" href="#">Alta de Cliente</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="mostrarComida" href="#">Mostrar Catálogo Comidas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="mostrarCliente" href="#">Mostrar Clientes</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+
+  <div class="contenedor-form-comida d-flex justify-content-center align-items-center container-fluid d-none">
+    <form id="form-comida" class="row align-items-center gy-2 gx-3">
+      <div class="row-auto">
+        <label for="inputComida" class="col-sm-2 col-form-label">Descripción</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputComida" placeholder="Ingrese Comida">
+        </div>
+      </div>
+      <div class="row-auto mt-2">
+        <label for="inputPrecio" class="col-sm-2 col-form-label">Precio</label>
+        <div class="col-sm-5">
+          <input type="text" class="form-control" id="inputPrecio" placeholder="Ingrese Precio">
+        </div>
+      </div>
+      <div class="row-auto mb-3">
+        <button id="btnAltaComida" type="submit" class="btn btn-primary">Aceptar</button>
+      </div>
+    </form>    
+  </div>
+
+  <div class="contenedor-form-cliente d-flex justify-content-center align-items-center container-fluid d-none">
+    <form id="form-cliente" class="row align-items-center gy-2 gx-3">
+      <div class="row-auto">
+        <label for="inputDniCli" class="col-sm-2 col-form-label">DNI</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputDniCli" placeholder="Ingrese DNI">
+        </div>
+      </div>
+      <div class="row-auto">
+        <label for="inputNombreCli" class="col-sm-2 col-form-label">Nombre</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputNombreCli" placeholder="Ingrese Nombre">
+        </div>
+      </div>
+      <div class="row-auto">
+        <label for="inputApellidoCli" class="col-sm-2 col-form-label">Apellido</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputApellidoCli" placeholder="Ingrese Apellido">
+        </div>
+      </div>
+      <div class="row-auto">
+        <label for="inputDirecionCli" class="col-sm-2 col-form-label">Dirección</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputDirecionCli" placeholder="Ingrese Dirección">
+        </div>
+      </div>
+      <div class="row-auto mt-2">
+        <label for="inputTelCli" class="col-sm-2 col-form-label">Tel.</label>
+        <div class="col-sm-5">
+          <input type="text" class="form-control" id="inputTelCli" placeholder="Ingrese Num Telefono">
+        </div>
+      </div>
+      <div class="row-auto mb-3">
+        <button id="btnAltaCliente" type="submit" class="btn btn-primary">Aceptar</button>
+      </div>
+    </form>    
+  </div>
+  
+  <div id="contenedor-tabla-comida" class="container m-5 d-flex justify-content-center d-none container-fluid">
+    <table class="table table-dark">         
+          <thead class="thead-dark">
+              <tr id="trId">
+                  <th ># Id</th>
+                  <th >Descripción</th>
+                  <th >Precio Unitario</th>
+              </tr>
+          </thead>
+          <tbody id="itemsTablaComida" class="table-striped"></tbody>
+          <!-- <tfoot>
+              <tr>
+                  <th id="total"></th>
+              </tr>
+          </tfoot> -->
+      </table>
+    </div>
+
+    <div id="contenedor-tabla-cliente" class="container m-5 d-flex justify-content-center d-none container-fluid">
+      <table class="table table-dark">         
+          <thead class="thead-dark">
+              <tr id="trId">
+                  <th ># Id</th>
+                  <th >DNI</th>
+                  <th >Nombre</th>
+                  <th >Apellido</th>
+                  <th >Domicilio</th>
+                  <th >Tel.</th>
+              </tr>
+          </thead>
+          <tbody id="itemsTablaCliente" class="table-striped"></tbody>
+          <!-- <tfoot>
+               <tr> 
+                  <th id="total"></th>
+              </tr> 
+          </tfoot> -->
+      </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="/Cliente.js"></script>
+    <script src="/Comida.js"></script>    
+    <script src="/SistemaEnvioPedido.js"></script>
+    <script src="/app.js"></script>    
+</body>
+</html>
