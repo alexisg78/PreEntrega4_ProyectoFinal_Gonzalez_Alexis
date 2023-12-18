@@ -3,6 +3,8 @@ const clientes= [];
 
 let com = JSON.parse(localStorage.getItem('catalogoComidas'));  
 let cli = JSON.parse(localStorage.getItem('clientes'));
+let formVisible= false;
+let estado= '';
 
 cargaArray(com, catalogoComidas);
 cargaArray(cli, clientes);
@@ -13,14 +15,15 @@ function cargaArray(coleccion, arr){
      }
  }
  
-let estado="";
-function muestraOculta(elem){
-    
-    console.log(`El estado es ${estado}`);
-    console.log(estado.includes('d-none'))
-    if(estado.includes('d-none')){
-        elem.classList.remove('d-none')
-        elem.classList.add('d-block')
+function muestraOculta(elem, estado, formVisible){    
+    if (formVisible){
+        if(estado.includes('d-none')){
+            elem.classList.remove('d-none');
+            elem.classList.add('d-block');
+        }else{
+            elem.classList.remove('d-block')
+            elem.classList.add('d-none')
+        }
     }else{
         elem.classList.remove('d-block')
         elem.classList.add('d-none')
@@ -30,7 +33,6 @@ function muestraOculta(elem){
 function limpiarFormulario(formulario) {
     formulario.reset(); ///me resetea el contenido del formulario - limpiar los campos
 }
-
 
 //--------------------------------------------------------------------------
 // Comidas
@@ -47,9 +49,15 @@ const btnAltaComida= document.querySelector("#btnAltaComida");
 
 
 navComida.addEventListener("click",()=>{
+    //Oculto los otros form
+    muestraOculta(contenedorCliente, estado, false);
+    muestraOculta(tablaCliente, estado, false);
+    muestraOculta(tablaComida, estado, false);
+
+    formVisible= true;
     estado= contenedorComida.className;
-    muestraOculta(contenedorComida);
-    estado= contenedorComida.className
+    muestraOculta(contenedorComida, estado, formVisible);
+   
 })
 
 btnAltaComida.addEventListener("click",(e)=>{
@@ -65,10 +73,14 @@ const btnMostrarComida= document.querySelector("#mostrarComida")
 const tablaComida= document.querySelector("#contenedor-tabla-comida")
 
 btnMostrarComida.addEventListener("click", ()=>{
+    //Oculto los otros form
+    muestraOculta(contenedorCliente, estado, false);
+    muestraOculta(tablaCliente, estado, false);
+    muestraOculta(contenedorComida, estado, false);  
+
+    formVisible= true;
     estado= tablaComida.className;
-    console.log(estado)
-    muestraOculta(tablaComida);
-    estado= tablaComida.className
+    muestraOculta(tablaComida, estado, formVisible);
     mostrarCatalogoComidas();
     }
 )
@@ -91,9 +103,14 @@ const btnAltaCliente= document.querySelector("#btnAltaCliente");
 
 
 navAltaCli.addEventListener("click",()=>{
+    //Oculto los otros form
+    muestraOculta(contenedorComida, estado, false);
+    muestraOculta(tablaComida, estado, false);
+    muestraOculta(tablaCliente, estado, false);    
+
+    formVisible= true;
     estado= contenedorCliente.className;
-    muestraOculta(contenedorCliente);
-    estado= contenedorCliente.className;
+    muestraOculta(contenedorCliente, estado, formVisible);
 })
 
 btnAltaCliente.addEventListener("click",(e)=>{
@@ -111,10 +128,13 @@ const btnMostrarCliente= document.querySelector("#mostrarCliente")
 const tablaCliente= document.querySelector("#contenedor-tabla-cliente")
 
 btnMostrarCliente.addEventListener("click",()=>{
+    //Oculto los otros form
+    muestraOculta(contenedorComida, estado, false);
+    muestraOculta(tablaComida, estado, false);
+    muestraOculta(contenedorCliente, estado, false);    
+
+    formVisible= true;
     estado= tablaCliente.className;
-    muestraOculta(tablaCliente);
-    estado= tablaCliente.className;
+    muestraOculta(tablaCliente, estado, formVisible);
     mostrarClientes();
 })
-
-
