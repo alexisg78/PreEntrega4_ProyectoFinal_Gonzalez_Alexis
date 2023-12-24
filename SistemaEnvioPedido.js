@@ -4,12 +4,12 @@ let idCliente= 0;
 
 // Comidas
 function agregarComida(){
+    let devuelveValida
     let objComida= new Comida();
-    objComida.cargaDatos();
-    catalogoComidas.push(objComida)
-    
-    // let comidasJSON = JSON.stringify(catalogoComidas)
-    // localStorage.setItem('catalogoComidas',comidasJSON);
+    devuelveValida= objComida.cargaDatos();
+    if (devuelveValida===true){
+        catalogoComidas.push(objComida)
+    }
 }
 
 function mostrarCatalogoComidas(){

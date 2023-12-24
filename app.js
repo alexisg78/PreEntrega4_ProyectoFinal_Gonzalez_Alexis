@@ -1,10 +1,11 @@
 const catalogoComidas= []
 const clientes= [];
 
-let com = JSON.parse(localStorage.getItem('catalogoComidas'));  
-let cli = JSON.parse(localStorage.getItem('clientes'));
+let com = JSON.parse(localStorage.getItem('catalogoComidas'))||[];  
+let cli = JSON.parse(localStorage.getItem('clientes'))||[];
 let formVisible= false;
 let estado= '';
+let valida= false;
 
 cargaArray(com, catalogoComidas);
 cargaArray(cli, clientes);
@@ -65,7 +66,7 @@ btnAltaComida.addEventListener("click",(e)=>{
     agregarComida();
     let comidasJSON = JSON.stringify(catalogoComidas)
     localStorage.setItem('catalogoComidas',comidasJSON);
-    limpiarFormulario(formComida);
+    valida && limpiarFormulario(formComida);
 })
 
 // Tablas mostrarComida

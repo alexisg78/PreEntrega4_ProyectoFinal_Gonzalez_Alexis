@@ -1,27 +1,43 @@
+body{
+    background-image: url(/imagenes/food-delivery-in-pink-oqi3x301x86i9vwl.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+    background-attachment: fixed;
+}
 /* Barra de navegacion */
 .navbar{
     padding: 2rem;
     background-color: #f5f6f7;
+    /* height: 40px; */
 }
 
 .navbar-collapse{
     align-items: center;
-    /* justify-content: space-between; */
     justify-content: center;
+    margin: auto;
 }
 
 .contenedor-form-comida, .contenedor-form-cliente{
-    background-color: #f5f6f7;
+    /* background-color: rgba(245, 246, 247, 85%); */
+    /* background-color: rgba(209, 231, 221, 1); */
+    background-color: rgba(209, 231, 221, 90%);
+    width: 500px;
+    border-radius: 2%;
 }
 
-
-/* .ocultar{
-    display: none;
+.table{
+    background-color: rgba(209, 231, 221, 90%);
 }
 
-.mostrar{
-    display: block;
-} */
+.contenedor-form-cliente{
+    margin: 15px auto;
+    height: 470px;
+}
+
+.contenedor-form-comida{
+    margin: 100px auto;
+}
 
 /* Adaptable (responsive) */
 @media screen and (max-width: 767px) {
