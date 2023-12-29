@@ -8,8 +8,11 @@ body{
 /* Barra de navegacion */
 .navbar{
     padding: 2rem;
-    background-color: #f5f6f7;
-    /* height: 40px; */
+    background-color: rgba(245, 246, 247,75%);
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size:18px;
+    font-weight: bolder;
+    color: black;
 }
 
 .navbar-collapse{
@@ -18,12 +21,33 @@ body{
     margin: auto;
 }
 
+.nav-item{
+    margin-right: 20px;
+}
+
+a:hover{
+    color:rgb(145, 191, 237)
+}
+
 .contenedor-form-comida, .contenedor-form-cliente{
     /* background-color: rgba(245, 246, 247, 85%); */
     /* background-color: rgba(209, 231, 221, 1); */
     background-color: rgba(209, 231, 221, 90%);
     width: 500px;
     border-radius: 2%;
+}
+
+.btnSalir{
+    display: inline;
+    background-color:rgb(221 100 100);
+}
+
+.btnSalir:hover{
+    background-color:rgb(193, 88, 88);
+}
+
+#btnAltaCliente{
+   background-color:rgb(47 117 221)
 }
 
 .table{
@@ -39,9 +63,53 @@ body{
     margin: 100px auto;
 }
 
+.position{
+    position: absolute;
+    margin: auto;
+    /* margin-top: 130px;  */
+}
+
+.no-position{
+    position:static;
+}
+
 /* Adaptable (responsive) */
-@media screen and (max-width: 767px) {
+@media screen and (min-width: 1px) and (max-width: 767px) {
     .navbar-brand{
         display: none;
     }
+    
+    .position{
+        position: absolute;
+        margin: auto;
+        margin-top: 5px;
+    }
 }
+
+/* responsive sm */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .position{
+        position: absolute;
+        margin: auto;
+        margin-top: 45px;
+    }
+}
+/* responsive md */
+@media screen and (min-width: 992px) and (max-width: 1004px) {
+    .position{
+        position: absolute;
+        margin: auto;
+        margin-top: 80px;
+    }
+}
+
+/* responsive lg */
+@media screen and (min-width: 1005px) and (max-width: 1006px) {
+    .position{
+        position: absolute;
+        margin: auto;
+        /* margin-top: 130px; */
+        margin-top: 145em;
+    }
+}
+

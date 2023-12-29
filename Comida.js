@@ -10,20 +10,14 @@ class Comida{
     }
     
     cargaDatos(){        
+        this.codigo= this.codigo || '';
         this.descripcion= inputComida.value.toLocaleUpperCase() || ''
         this.precio= inputPrecio.value || ''
         valida= this.descripcion&&this.precio&&true
         if(valida!==true){
-            Swal.fire({
-                position: "center",
-                icon: "warning",
-                iconcolor: "Red",
-                title: "Debe completar los datos!",
-                showConfirmButton: false,
-                timer: 1500
-              });
-              valida= false;
-              return valida;
+            alerta_validaDatos("Debe completar los datos!");
+            valida= false;
+            return valida;
         }else{
             valida= true;
             return valida

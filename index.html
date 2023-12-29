@@ -33,10 +33,10 @@
               <a class="nav-link" id="nav-altaCliente" href="#">Alta de Cliente</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="mostrarComida" href="#">Mostrar Catálogo Comidas</a>
+              <a class="nav-link" id="mostrarComida" href="#">Comidas/Bebidas</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="mostrarCliente" href="#">Mostrar Clientes</a>
+              <a class="nav-link" id="mostrarCliente" href="#">Clientes</a>
             </li>
           </ul>
         </div>
@@ -60,12 +60,12 @@
           </div>
           <div class="row-auto mb-3">
             <button id="btnAltaComida" type="submit" class="btn btn-primary">Aceptar</button>
+            <button id="btnSalirCom" type="" class="btn btnSalir btn-primary">Salir</button>
           </div>
         </form>
       </div>
 
-      <div class="contenedor-form-cliente d-flex justify-content-center align-items-center container-fluid d-none 
-      gy-2 gx-3">
+      <div class="contenedor-form-cliente d-flex justify-content-center align-items-center container-fluid d-none gy-2 gx-3">
         <form id="form-cliente" class="row align-items-center gy-2 gx-3">
           <div class="row-auto">
             <label for="inputDniCli" class="col-sm-2 col-form-label">DNI</label>
@@ -76,40 +76,41 @@
 
           <div class="row-auto">
             <label for="inputNombreCli" class="col-sm-2 col-form-label">Nombre</label>
-            <div class="col-sm-5">
+            <div class="col-sm-7">
               <input type="text" class="form-control" id="inputNombreCli" placeholder="Ingrese Nombre"/>
             </div>
           </div>
 
           <div class="row-auto">
             <label for="inputApellidoCli" class="col-sm-2 col-form-label">Apellido</label>
-            <div class="col-sm-5">
+            <div class="col-sm-7">
               <input type="text" class="form-control" id="inputApellidoCli" placeholder="Ingrese Apellido"/>
             </div>
           </div>
 
           <div class="row-auto">
             <label for="inputDirecionCli" class="col-sm-2 col-form-label">Dirección</label>
-            <div class="col-sm-6">
+            <div class="col-sm-7">
               <input type="text" class="form-control" id="inputDirecionCli" placeholder="Ingrese Dirección"/>
             </div>
           </div>
 
           <div class="row-auto mt-2">
             <label for="inputTelCli" class="col-sm-2 col-form-label">Tel.</label>
-            <div class="col-sm-5">
+            <div class="col-sm-7">
               <input type="number" class="form-control" id="inputTelCli" placeholder="Ingrese Num Telefono"/>
             </div>
           </div>
 
           <div class="row-auto mb-3">
             <button id="btnAltaCliente" type="submit" class="btn btn-primary">Aceptar</button>
+            <button id="btnSalirCLi" type="" class="btn btnSalir btn-primary">Salir</button>
           </div>
         </form>
       </div>
 
       <div id="contenedor-tabla-comida" class="container m-5 d-flex justify-content-center d-none container-fluid table-responsive">
-        <table class="table table-hover">
+        <table class="table table-hover table-responsive">
           <thead class="thead-dark">
             <tr id="trId">
               <th># Id</th>
@@ -122,7 +123,7 @@
       </div>
 
       <div id="contenedor-tabla-cliente" class="container m-5 d-flex justify-content-center d-none container-fluid table-responsive{-sm}">
-        <table class="table table-hover">
+        <table class="table table-hover table-responsive">
           <thead class="thead-dark">
             <tr id="trId">
               <th># Id</th>
