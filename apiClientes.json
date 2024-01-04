@@ -1,0 +1,5 @@
+[{"codigo":1,"dni":"1122334455","nombre":"MICK","apellido":"JAGGER","domicilio":"THE ROLLING STONES","tel":"9876543"},{"codigo":2,"dni":"35123456","nombre":"ALEXIS DANIEL","apellido":"GONZALEZ","domicilio":"SAN LUIS 123","tel":"3413922619"},
+{"codigo":3,"dni":"33123456","nombre":"MARIA DE LOS ANGELES","apellido":"FARED","domicilio":"SAN LUIS 456","tel":"12345678"},
+{"codigo":4,"dni":"22123456","nombre":"PEPE (EL ENCARGADO)","apellido":"ARGENTO","domicilio":"CASADOS CON HIJOS","tel":"152153513"},
+{"codigo":5,"dni":"22456789","nombre":"BRUCE (BATMAN)","apellido":"WAYNE","domicilio":"CIUDAD GOTICA","tel":"99999999"},{"codigo":6,"dni":"20123789","nombre":"COSME","apellido":"FULANITO","domicilio":"AV. SIEMPREVIVA","tel":"12412551"},{"codigo":7,"dni":"38456543","nombre":"PETER (HOMBRE ARAÑA)","apellido":"PARKER","domicilio":"NEW YORK","tel":"12412521"},
+{"codigo":8,"dni":"22333444","nombre":"LOGAN (X-MEN)","apellido":"GONZALEZ","domicilio":"SAN LUIS 123","tel":"555555"}]

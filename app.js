@@ -1,33 +1,65 @@
-const catalogoComidas= []
+const catalogoComidas= [];
 const clientes= [];
+const pedidos= [];
+const prepara_pedidos= [];
+const pedidos_entregar= [];
+let pedActual= null;
+//---------------------------------------------------------------------------
+// Funciones Asincronicas - json local (apiCatalogo, apiClientes, apiPedidos)
 
-let com = JSON.parse(localStorage.getItem('catalogoComidas'))||[];  
-let cli = JSON.parse(localStorage.getItem('clientes'))||[];
+//Catalogo 
+fetch('apiCatalogo.json').then((response)=>{
+    if(response.ok){
+        return response.json();
+    }
+}).then((com)=>{
+    com.forEach(i => {            
+        catalogoComidas.push(i)   
+    });
+    
+    let comidasJSON = JSON.stringify(catalogoComidas);
+    localStorage.setItem('catalogoComidas',comidasJSON);
+}).catch((error) => {
+    alerta_error(error)
+}); 
+
+//Clientes
+fetch('apiClientes.json').then((response)=>{
+    if(response.ok){
+        return response.json();
+    }
+}).then((cli)=>{
+    cli.forEach(i => {            
+        clientes.push(i)   
+    });
+    
+    let clientesJSON = JSON.stringify(clientes);
+    localStorage.setItem('clientes',clientesJSON);
+
+}).catch((error) => {
+    alerta_error(error)
+}); 
+
+//Pedidos
+fetch('apiPedidos.json').then((response)=>{
+    if(response.ok){
+        return response.json();
+    }
+}).then((ped)=>{
+        ped.forEach(i => {            
+        pedidos.push(i)   
+    });
+
+}).catch((error) => {
+    alerta_error(error)
+});  
+
+//---------------------------------------------------------------------------
 let elementoVisible= false;
 let estado= '';
 let valida= false;
 let modificaReg= false;
 let codCliModi= 0
-
-cargaArray(com, catalogoComidas);
-cargaArray(cli, clientes);
-
-// console.log(catalogoComidas)
-// console.log(clientes)
-
-function cargaArray(coleccion, arr){
-    if(coleccion.length > 1){ 
-        for (const c of coleccion) {
-            arr.push(c)
-        }
-    }    
- }
-
-// function cargaArray(coleccion, arr){
-//     for (const c of coleccion) {
-//         arr.push(c)
-//     }
-//  }
 
 function muestraOculta(elem, estado, elementoVisible){    
     if (elementoVisible){
@@ -79,6 +111,7 @@ navComida.addEventListener("click",()=>{
     muestraOculta(contenedorCliente, estado, false);
     muestraOculta(tablaCliente, estado, false);
     muestraOculta(tablaComida, estado, false);
+    muestraOculta(tablaPedido, estado, false);
 
     elementoVisible= true;
     estado= contenedorComida.className;
@@ -103,6 +136,7 @@ btnMostrarComida.addEventListener("click", ()=>{
     muestraOculta(contenedorCliente, estado, false);
     muestraOculta(tablaCliente, estado, false);
     muestraOculta(contenedorComida, estado, false);  
+    muestraOculta(tablaPedido, estado, false);
 
     elementoVisible= true;
     estado= tablaComida.className;
@@ -142,6 +176,7 @@ navAltaCli.addEventListener("click",()=>{
     muestraOculta(contenedorComida, estado, false);
     muestraOculta(tablaComida, estado, false);
     muestraOculta(tablaCliente, estado, false);    
+    muestraOculta(tablaPedido, estado, false);
     contenedorCliente.classList.remove('position');
 
     elementoVisible= true;
@@ -174,6 +209,7 @@ btnMostrarCliente.addEventListener("click",()=>{
     muestraOculta(contenedorComida, estado, false);
     muestraOculta(tablaComida, estado, false);
     muestraOculta(contenedorCliente, estado, false);    
+    muestraOculta(tablaPedido, estado, false);
     
     elementoVisible= true;
     estado= tablaCliente.className;
@@ -203,16 +239,82 @@ btnSalirFormCLi.addEventListener("click",(e)=>{
 })
 
 //---------------------------------------------------
+// Pedidos
+// Tabla mostrarPedido
+const btnMostrarPedido= document.querySelector("#mostrarPedido")
+const tablaPedido= document.querySelector("#contenedor-tabla-pedidos")
+const bodyTablaPedidos = document.getElementById("itemsTablaPedidos");
+
+btnMostrarPedido.addEventListener("click", ()=>{
+    //Oculto los otros form
+    muestraOculta(contenedorCliente, estado, false);
+    muestraOculta(contenedorComida, estado, false);  
+    muestraOculta(tablaCliente, estado, false);
+    muestraOculta(tablaComida, estado, false);
+
+    elementoVisible= true;
+    estado= tablaPedido.className;
+    muestraOculta(tablaPedido, estado, elementoVisible);
+    mostrarPedidos();
+    f_chkSelectPed();
+    }
+)
+
+function f_chkSelectPed(){
+    for (const p of pedidos) {
+        let chkSelectPed = document.querySelector(`#chkSelectPed${p.idPedido}`);
+        chkSelectPed.addEventListener("click",(e)=>{
+            e.preventDefault;    
+            if(p.entregado === false ){
+                f_entregarPedidos(p, chkSelectPed);
+            }
+        })
+    }
+}
+
+function f_entregarPedidos(ped, chkSelectPed){
+    btnEntregaPed.addEventListener("click",()=>{
+        //e.preventDefault;
+        if(ped.entregado === false){
+            let fila_ped_entregado= document.querySelector(`#fila-ped-entregado${ped.idPedido}`)
+            pedidos_entregar.push(ped);
+            ped.entregado= true
+            //let p= JSON.stringify(ped)
+            chkSelectPed.setAttribute("disabled","");
+            fila_ped_entregado.classList.add("color-entrega");
+            msj= `Pedido N° ${ped.idPedido} Entregado!
+            Cliente: ${ped.cliente}
+            Dirección: ${ped.destino}
+            Descripción: ${ped.pedido}
+            Precio: ${ped.precio}
+            Gracias por su Compra!`
+            alerta_exito(msj, 6000);
+        }
+    })
+}
+
+//---------------------------------------------------
 // Alertas
-function alerta_exito(msj){
+function alerta_exito(msj, tiempo){
     Swal.fire({
         position: "center",
         icon: "success",
         title: msj,
         showConfirmButton: false,
-        timer: 1500
+        timer: tiempo||1500
     })
 }
+
+function alerta_error(msj, tiempo){
+    Swal.fire({
+        position: "center",
+        icon: "error",
+        title: msj,
+        showConfirmButton: false,
+        timer: tiempo||5000
+    })
+}
+
 
 function alerta_validaDatos(msj){
     Swal.fire({
@@ -223,4 +325,22 @@ function alerta_validaDatos(msj){
         showConfirmButton: false,
         timer: 1000
     })
+}
+
+function alerta_pedido_nuevo(){
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "success",
+        title: "Tienes un nuevo Pedido!"
+      });
 }

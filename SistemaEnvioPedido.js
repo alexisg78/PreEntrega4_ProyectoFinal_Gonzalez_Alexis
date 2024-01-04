@@ -1,6 +1,5 @@
 let idComida= 0; 
 let idCliente= 0; 
-//let idPedidos= 0;  ---> Para cuando se implemente los pedidos
 
 // Comidas
 function agregarComida(){
@@ -22,7 +21,7 @@ function mostrarCatalogoComidas(){
             `<tr>
                 <th>${item.codigo}</th>
                 <td>${item.descripcion}</td>
-                <td>$${item.precio}</td>
+                <td>${item.precio}</td>
             </tr>    
         `;
     })
@@ -79,4 +78,47 @@ function mostrarClientes(){
             </tr>    
         `;
     });
+}
+
+//------------------------------------------------------
+// Pedidos
+function mostrarPedidos(){
+    let cli='';
+    let com=''
+    bodyTablaPedidos.innerHTML = ``; 
+    pedidos.forEach((item) => {
+        com = catalogoComidas.filter((i) =>{ return item.idCom_beb === i.codigo});
+        cli = clientes.filter((i) =>{ return item.idCli === i.codigo});
+        
+        item.cliente= cli[0].nombre +' '+ cli[0].apellido;
+        item.pedido= com[0].descripcion;
+        item.destino= cli[0].domicilio;
+        item.precio= com[0].precio;
+        if (item.entregado === false){
+            bodyTablaPedidos.innerHTML =  bodyTablaPedidos.innerHTML +
+                `<tr id="fila-ped-entregado${item.idPedido}">
+                    <th>${item.idPedido}</th>
+                    <td>${item.cliente}</td>
+                    <td>${item.pedido}</td>
+                    <td>${item.destino}</td>
+                    <td>${item.precio}</td>
+                    <td><input class="form-check-input" type="checkbox" role="switch" id="chkSelectPed${item.idPedido}"></input></td>
+                </tr>
+                `;
+        }else{
+            bodyTablaPedidos.innerHTML =  bodyTablaPedidos.innerHTML +
+            `<tr id="fila-ped-entregado${item.idPedido}" class="color-entrega">
+                <th>${item.idPedido}</th>
+                <td>${item.cliente}</td>
+                <td>${item.pedido}</td>
+                <td>${item.destino}</td>
+                <td>${item.precio}</td>
+                <td><input class="form-check-input" type="checkbox" disabled role="switch" id="chkSelectPed${item.idPedido}"></input></td>
+            </tr>
+            `;
+        }
+    });
+
+    bodyTablaPedidos.innerHTML =  bodyTablaPedidos.innerHTML +
+    `<button id="btnEntregaPed" type="submit" class="btn btn-primary position-absolute">Entregar Pedido</button>`
 }
