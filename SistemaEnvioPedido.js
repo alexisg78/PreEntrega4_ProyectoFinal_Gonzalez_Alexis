@@ -13,6 +13,23 @@ function agregarComida(){
     }
 }
 
+function modificaComida(){
+    let comEncontrado= catalogoComidas.find((i)=> i.codigo === codComModi)
+    
+    console.log(catalogoComidas[codComModi - 1])
+    catalogoComidas[codComModi - 1].descripcion= inputComida.value.toLocaleUpperCase();
+    catalogoComidas[codComModi - 1].precio= inputPrecio.value
+    
+    alerta_exito("La Comida/Bebida fue modificada con éxito!")
+
+    let comidasJSON = JSON.stringify(catalogoComidas);
+    localStorage.setItem('catalogoComidas',comidasJSON);
+    
+    mostrarCatalogoComidas()
+    f_btnModificarCom() //btn modificar, de cada registro
+}
+
+
 function mostrarCatalogoComidas(){
     let com = JSON.parse(localStorage.getItem('catalogoComidas'));  
     bodyTablaComida.innerHTML = ``; 
@@ -22,6 +39,7 @@ function mostrarCatalogoComidas(){
                 <th>${item.codigo}</th>
                 <td>${item.descripcion}</td>
                 <td>${item.precio}</td>
+                <td><button id="btnModifCom${item.codigo}" type="submit" class="btnModifCom btn btn-primary">Modificar</button></td>
             </tr>    
         `;
     })
@@ -40,26 +58,22 @@ function altaCliente(){
     }
 }
 
-function modificaCliente(c){
-    let cliEncontrado= clientes.find((i)=> i.codigo === codCliModi)
-    // console.log('prueba exitosa')   
-    // console.log(`El Cliente encontrado es: ${JSON.stringify(cliEncontrado)}`);
+function modificaCliente(){
+    let cliEncontrado= clientes.find((i)=> i.codigo === codCliModi);
     
-    clientes[codCliModi - 1].dni= inputDni.value
-    clientes[codCliModi - 1].nombre= inputNombre.value.toLocaleUpperCase()
-    clientes[codCliModi - 1].apellido= inputApellido.value.toLocaleUpperCase()
-    clientes[codCliModi - 1].domicilio= inputDireccion.value.toLocaleUpperCase()
-    clientes[codCliModi - 1].tel= inputTel.value
-    
-    //console.log(`Cliente modificado: ${JSON.stringify(clientes[codCliModi - 1])}`);
+    clientes[codCliModi - 1].dni= inputDni.value;
+    clientes[codCliModi - 1].nombre= inputNombre.value.toLocaleUpperCase();
+    clientes[codCliModi - 1].apellido= inputApellido.value.toLocaleUpperCase();
+    clientes[codCliModi - 1].domicilio= inputDireccion.value.toLocaleUpperCase();
+    clientes[codCliModi - 1].tel= inputTel.value;
     
     alerta_exito("El Cliente fue modificado con éxito!")
     
     let clientesJSON = JSON.stringify(clientes);
     localStorage.setItem('clientes',clientesJSON);
     
-    mostrarClientes()
-    f_btnModificarCli() //btn modificar, de cada registro
+    mostrarClientes();
+    f_btnModificarCli(); //btn modificar, de cada registro
 }
 
 function mostrarClientes(){
@@ -86,7 +100,7 @@ function mostrarPedidos(){
     let cli='';
     let com=''
     bodyTablaPedidos.innerHTML = ``; 
-    pedidos.forEach((item) => {
+    prepara_pedidos.forEach((item) => {
         com = catalogoComidas.filter((i) =>{ return item.idCom_beb === i.codigo});
         cli = clientes.filter((i) =>{ return item.idCli === i.codigo});
         
@@ -94,6 +108,7 @@ function mostrarPedidos(){
         item.pedido= com[0].descripcion;
         item.destino= cli[0].domicilio;
         item.precio= com[0].precio;
+
         if (item.entregado === false){
             bodyTablaPedidos.innerHTML =  bodyTablaPedidos.innerHTML +
                 `<tr id="fila-ped-entregado${item.idPedido}">
@@ -113,7 +128,7 @@ function mostrarPedidos(){
                 <td>${item.pedido}</td>
                 <td>${item.destino}</td>
                 <td>${item.precio}</td>
-                <td><input class="form-check-input" type="checkbox" disabled role="switch" id="chkSelectPed${item.idPedido}"></input></td>
+                <td><input class="form-check-input" checked="checked" type="checkbox" disabled role="switch" id="chkSelectPed${item.idPedido}"></input></td>
             </tr>
             `;
         }

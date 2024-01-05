@@ -20,9 +20,9 @@ class Cliente {
             this.domicilio= inputDireccion.value.toLocaleUpperCase() || ''
             this.tel= inputTel.value || ''
 
-            valida= this.codigo&&this.dni&&this.nombre&&this.apellido&&this.domicilio&&this.tel&&true
+            let valida= this.codigo&&this.dni&&this.nombre&&this.apellido&&this.domicilio&&this.tel&&true
             if(valida!==true){
-                alerta_validaDatos("Debe completar los datos!");
+                alerta_validaDatos("Debe completar los datos!",'');
                 valida= false;
                 return valida;
             }else{

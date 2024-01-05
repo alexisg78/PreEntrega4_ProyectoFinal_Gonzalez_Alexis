@@ -12,10 +12,10 @@ class Comida{
     cargaDatos(){        
         this.codigo= this.codigo || '';
         this.descripcion= inputComida.value.toLocaleUpperCase() || ''
-        this.precio= inputPrecio.value || ''
-        valida= this.descripcion&&this.precio&&true
+        this.precio= inputPrecio.value
+        let valida= this.descripcion&&this.precio&&true
         if(valida!==true){
-            alerta_validaDatos("Debe completar los datos!");
+            alerta_validaDatos("Debe completar los datos!",'');
             valida= false;
             return valida;
         }else{

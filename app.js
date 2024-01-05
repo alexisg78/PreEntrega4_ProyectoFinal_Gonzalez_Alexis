@@ -1,9 +1,9 @@
 const catalogoComidas= [];
 const clientes= [];
-const pedidos= [];
-const prepara_pedidos= [];
+const pedidos= []; // Todos los pedidos de la API local
+const prepara_pedidos= []; // pedidos que se van cargando en la tabla
 const pedidos_entregar= [];
-let pedActual= null;
+
 //---------------------------------------------------------------------------
 // Funciones Asincronicas - json local (apiCatalogo, apiClientes, apiPedidos)
 
@@ -55,11 +55,14 @@ fetch('apiPedidos.json').then((response)=>{
 });  
 
 //---------------------------------------------------------------------------
+
 let elementoVisible= false;
 let estado= '';
 let valida= false;
 let modificaReg= false;
-let codCliModi= 0
+let tipoForm= '';
+let codComModi= 0;
+let codCliModi= 0;
 
 function muestraOculta(elem, estado, elementoVisible){    
     if (elementoVisible){
@@ -76,15 +79,23 @@ function muestraOculta(elem, estado, elementoVisible){
     }
 }
 
-function llamaForm(c){ 
-    inputDni.value= c.dni || ""
-    inputNombre.value= c.nombre || ""
-    inputApellido.value= c.apellido || ""
-    inputDireccion.value= c.domicilio || ""
-    inputTel.value= c.tel || ""
-    contenedorCliente.classList.add('position');    
-    modificaReg= true;
-    codCliModi= c.codigo;
+function llamaForm(c, tipoForm){ 
+    if(tipoForm === 'cliente'){
+        inputDni.value= c.dni || ""
+        inputNombre.value= c.nombre || ""
+        inputApellido.value= c.apellido || ""
+        inputDireccion.value= c.domicilio || ""
+        inputTel.value= c.tel || ""
+        contenedorCliente.classList.add('position');    
+        codCliModi= c.codigo;
+        modificaReg= true;
+    }else{
+        inputComida.value= c.descripcion || ''
+        inputPrecio.value= c.precio || '';
+        contenedorComida.classList.add('position');    
+        codComModi= c.codigo;
+        modificaReg= true;
+    }
 }
 
 function limpiarFormulario(formulario) {
@@ -107,11 +118,13 @@ const btnSalirFormComida= document.querySelector("#btnSalirCom")
 
 navComida.addEventListener("click",()=>{
     modificaReg= false;
+    limpiarFormulario(formComida)
     //Oculto los otros form
     muestraOculta(contenedorCliente, estado, false);
     muestraOculta(tablaCliente, estado, false);
     muestraOculta(tablaComida, estado, false);
     muestraOculta(tablaPedido, estado, false);
+    contenedorComida.classList.remove('position');
 
     elementoVisible= true;
     estado= contenedorComida.className;
@@ -121,10 +134,15 @@ navComida.addEventListener("click",()=>{
 
 btnAltaComida.addEventListener("click",(e)=>{
     e.preventDefault;
-    agregarComida();
-    let comidasJSON = JSON.stringify(catalogoComidas)
-    localStorage.setItem('catalogoComidas',comidasJSON);
-    valida && limpiarFormulario(formComida);
+    if(modificaReg===false){ 
+        agregarComida();
+        let comidasJSON = JSON.stringify(catalogoComidas)
+        localStorage.setItem('catalogoComidas',comidasJSON);
+        valida && limpiarFormulario(formComida);
+    }else{
+        modificaComida();
+        muestraOculta(contenedorComida, estado, false);
+    }    
 })
 
 // Tablas mostrarComida
@@ -132,6 +150,7 @@ const btnMostrarComida= document.querySelector("#mostrarComida")
 const tablaComida= document.querySelector("#contenedor-tabla-comida")
 
 btnMostrarComida.addEventListener("click", ()=>{
+    modificaReg= false;
     //Oculto los otros form
     muestraOculta(contenedorCliente, estado, false);
     muestraOculta(tablaCliente, estado, false);
@@ -142,13 +161,29 @@ btnMostrarComida.addEventListener("click", ()=>{
     estado= tablaComida.className;
     muestraOculta(tablaComida, estado, elementoVisible);
     mostrarCatalogoComidas();
+
+    f_btnModificarCom() //btn modificar, de cada registro
     }
 )
+
+function f_btnModificarCom(){
+    tipoForm= 'comida/bebida'
+    for (const c of catalogoComidas) {
+        let btnModifCom = document.querySelector(`#btnModifCom${c.codigo}`);
+        btnModifCom.addEventListener("click",(e)=>{
+            e.preventDefault;    
+            estado= contenedorComida.className;
+            muestraOculta(contenedorComida, estado, elementoVisible);
+            llamaForm(c, tipoForm);      
+        })
+    }
+}
 
 btnSalirFormComida.addEventListener("click",(e)=>{
     e.preventDefault;
     contenedorComida.classList.remove('position');
-    muestraOculta(contenedorComida, estado, false)
+    muestraOculta(contenedorComida, estado, false);
+    modificaReg= false;
 })
 
 //--------------------------------------------------------------------------
@@ -166,7 +201,6 @@ const inputApellido= document.querySelector("#inputApellidoCli")
 const inputDireccion= document.querySelector("#inputDirecionCli")
 const inputTel= document.querySelector("#inputTelCli")
 const btnAltaCliente= document.querySelector("#btnAltaCliente");
-
 
 navAltaCli.addEventListener("click",()=>{
     modificaReg= false;
@@ -197,8 +231,6 @@ btnAltaCliente.addEventListener("click",(e)=>{
     }   
 })
 
-
-//-----------------------
 // Tablas mostrarCliente
 const btnMostrarCliente= document.querySelector("#mostrarCliente")
 const tablaCliente= document.querySelector("#contenedor-tabla-cliente")
@@ -220,13 +252,14 @@ btnMostrarCliente.addEventListener("click",()=>{
 })
 
 function f_btnModificarCli(){
+    tipoForm= 'cliente'
     for (const c of clientes) {
         let btnModifCli = document.querySelector(`#btnModifCli${c.codigo}`);
         btnModifCli.addEventListener("click",(e)=>{
             e.preventDefault;    
             estado= contenedorCliente.className;
             muestraOculta(contenedorCliente, estado, elementoVisible);
-            llamaForm(c);      
+            llamaForm(c, tipoForm);      
         })
     }
 }
@@ -240,6 +273,7 @@ btnSalirFormCLi.addEventListener("click",(e)=>{
 
 //---------------------------------------------------
 // Pedidos
+
 // Tabla mostrarPedido
 const btnMostrarPedido= document.querySelector("#mostrarPedido")
 const tablaPedido= document.querySelector("#contenedor-tabla-pedidos")
@@ -261,10 +295,10 @@ btnMostrarPedido.addEventListener("click", ()=>{
 )
 
 function f_chkSelectPed(){
-    for (const p of pedidos) {
+    for (const p of prepara_pedidos) {
         let chkSelectPed = document.querySelector(`#chkSelectPed${p.idPedido}`);
         chkSelectPed.addEventListener("click",(e)=>{
-            e.preventDefault;    
+            e.preventDefault;
             if(p.entregado === false ){
                 f_entregarPedidos(p, chkSelectPed);
             }
@@ -274,6 +308,7 @@ function f_chkSelectPed(){
 
 function f_entregarPedidos(ped, chkSelectPed){
     btnEntregaPed.addEventListener("click",()=>{
+        console.log("clickeaste el boton ENTREGAR")
         //e.preventDefault;
         if(ped.entregado === false){
             let fila_ped_entregado= document.querySelector(`#fila-ped-entregado${ped.idPedido}`)
@@ -281,6 +316,7 @@ function f_entregarPedidos(ped, chkSelectPed){
             ped.entregado= true
             //let p= JSON.stringify(ped)
             chkSelectPed.setAttribute("disabled","");
+            chkSelectPed.setAttribute("checked","checked");
             fila_ped_entregado.classList.add("color-entrega");
             msj= `Pedido N° ${ped.idPedido} Entregado!
             Cliente: ${ped.cliente}
@@ -288,10 +324,34 @@ function f_entregarPedidos(ped, chkSelectPed){
             Descripción: ${ped.pedido}
             Precio: ${ped.precio}
             Gracias por su Compra!`
-            alerta_exito(msj, 6000);
+            muestraOculta(tablaPedido, null, false);
+            alerta_exito(msj, 5000);
         }
     })
 }
+
+// Función - simula pedido nuevo
+function f_simularPedidoNuevo() {
+    let indice = 0;
+
+    return function () {
+        if (indice < pedidos.length) {
+            const objetoActual = pedidos[indice];
+            prepara_pedidos.push(objetoActual)
+            mostrarPedidos();
+            alerta_pedido_nuevo()
+            muestraOculta(tablaPedido, null, false);
+            indice++;
+        } else {
+            clearInterval(intervaloMostrarPedido);
+            console.log('Intervalo detenido');
+            indice = 0;
+        }
+    };
+}
+
+// Para llamar a la función cada 14 segundos
+const intervaloMostrarPedido = setInterval(f_simularPedidoNuevo(), 14000);
 
 //---------------------------------------------------
 // Alertas
@@ -311,28 +371,29 @@ function alerta_error(msj, tiempo){
         icon: "error",
         title: msj,
         showConfirmButton: false,
-        timer: tiempo||5000
+        timer: tiempo||3000
     })
+    return false;
 }
 
 
-function alerta_validaDatos(msj){
+function alerta_validaDatos(msj, tiempo){
     Swal.fire({
         position: "center",
         icon: "warning",
         iconcolor: "red",
         title: msj,
         showConfirmButton: false,
-        timer: 1000
+        timer: tiempo||2000
     })
 }
 
 function alerta_pedido_nuevo(){
     const Toast = Swal.mixin({
         toast: true,
-        position: "top-end",
+        position: "bottom-end",
         showConfirmButton: false,
-        timer: 3000,
+        timer: 2000,
         timerProgressBar: true,
         didOpen: (toast) => {
           toast.onmouseenter = Swal.stopTimer;
@@ -340,7 +401,7 @@ function alerta_pedido_nuevo(){
         }
       });
       Toast.fire({
-        icon: "success",
+        icon: "info",
         title: "Tienes un nuevo Pedido!"
       });
 }
