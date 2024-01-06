@@ -8,7 +8,7 @@ const pedidos_entregar= [];
 // Funciones Asincronicas - json local (apiCatalogo, apiClientes, apiPedidos)
 
 //Catalogo 
-fetch('apiCatalogo.json').then((response)=>{
+fetch('api/apiCatalogo.json').then((response)=>{
     if(response.ok){
         return response.json();
     }
@@ -24,7 +24,7 @@ fetch('apiCatalogo.json').then((response)=>{
 }); 
 
 //Clientes
-fetch('apiClientes.json').then((response)=>{
+fetch('api/apiClientes.json').then((response)=>{
     if(response.ok){
         return response.json();
     }
@@ -41,7 +41,7 @@ fetch('apiClientes.json').then((response)=>{
 }); 
 
 //Pedidos
-fetch('apiPedidos.json').then((response)=>{
+fetch('api/apiPedidos.json').then((response)=>{
     if(response.ok){
         return response.json();
     }
@@ -308,8 +308,6 @@ function f_chkSelectPed(){
 
 function f_entregarPedidos(ped, chkSelectPed){
     btnEntregaPed.addEventListener("click",()=>{
-        console.log("clickeaste el boton ENTREGAR")
-        //e.preventDefault;
         if(ped.entregado === false){
             let fila_ped_entregado= document.querySelector(`#fila-ped-entregado${ped.idPedido}`)
             pedidos_entregar.push(ped);
@@ -365,6 +363,7 @@ function alerta_exito(msj, tiempo){
     })
 }
 
+
 function alerta_error(msj, tiempo){
     Swal.fire({
         position: "center",
@@ -381,7 +380,6 @@ function alerta_validaDatos(msj, tiempo){
     Swal.fire({
         position: "center",
         icon: "warning",
-        iconcolor: "red",
         title: msj,
         showConfirmButton: false,
         timer: tiempo||2000
