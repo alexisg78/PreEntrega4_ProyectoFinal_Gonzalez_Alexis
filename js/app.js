@@ -10,7 +10,7 @@ const pedidos_entregar= [];
 //Catalogo 
 fetch('api/apiCatalogo.json').then((response)=>{
     if(response.ok){
-        return response.json();
+        return response.json('api/apiCatalogo.json');
     }
 }).then((com)=>{
     com.forEach(i => {            
